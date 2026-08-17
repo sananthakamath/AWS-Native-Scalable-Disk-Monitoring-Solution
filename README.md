@@ -1,4 +1,4 @@
-## AWS-Native-Scalable-Disk-Monitoring-Solution
+## AWS Native Scalable Disk Monitoring Solution
 
 This solution replaces **Ansible-based disk monitoring** with a fully AWS-native architecture using **AWS Systems Manager (SSM)**, **Amazon CloudWatch**, and **AWS Organizations**. It operates on a **hub-and-spoke model** for enterprise-scale, zero-touch monitoring across multiple accounts and regions.
 
