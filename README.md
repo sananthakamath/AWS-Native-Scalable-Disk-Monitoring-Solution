@@ -1,9 +1,4 @@
 ## AWS-Native-Scalable-Disk-Monitoring-Solution
-This a repository containing the artifacts on the Disk Monitoring Solution I designed.
-
-
-
-## Overview
 
 This solution replaces **Ansible-based disk monitoring** with a fully AWS-native architecture using **AWS Systems Manager (SSM)**, **Amazon CloudWatch**, and **AWS Organizations**. It operates on a **hub-and-spoke model** for enterprise-scale, zero-touch monitoring across multiple accounts and regions.
 
@@ -13,6 +8,8 @@ This solution replaces **Ansible-based disk monitoring** with a fully AWS-native
 - **Spokes** — Member accounts in OUs receive auto-deployed monitoring stacks
 - **Governance** — Management Account owns the Organization structure, SCPs, and StackSets
 - Requires only **HTTPS outbound (port 443)** — no SSH, bastion hosts, or open inbound ports
+
+![]()
 
 ## Five Core Components
 
