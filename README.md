@@ -26,7 +26,3 @@ This solution replaces **Ansible-based disk monitoring** with a fully AWS-native
 - SCP-enforced compliance — monitoring can't be disabled even by account admins
 - Self-healing via SSM State Manager drift detection
 - Complete audit trail via CloudTrail
-
-## Cost
-
-**~$200–300/month for 500 VMs across 5 accounts and 3 regions** — most core components (SSM Agent, State Manager, Organizations, OAM) are free. The primary costs are CloudWatch custom metrics (~$0.30/metric) and alarms ($0.10/alarm).
