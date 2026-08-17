@@ -9,7 +9,7 @@ This solution replaces **Ansible-based disk monitoring** with a fully AWS-native
 - **Governance** — Management Account owns the Organization structure, SCPs, and StackSets
 - Requires only **HTTPS outbound (port 443)** — no SSH, bastion hosts, or open inbound ports
 
-![]()
+![](https://github.com/sananthakamath/AWS-Native-Scalable-Disk-Monitoring-Solution/blob/main/Architecture-Diagram/Architecture_Diagram.jpg)
 
 ## Five Core Components
 
