@@ -58,3 +58,27 @@ Resources:
     Type: AWS::CloudWatch::Alarm
     Properties:
       AlarmName: HighDiskUtilization-Critical
+      AlarmDescription: "CRITICAL - Disk utilization exceeds 95%"
+      Namespace: DiskMonitoring/Custom
+      MetricName: disk_used_percent
+      Statistic: Maximum
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 95
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: breaching
+      AlarmActions:
+        - !Ref DiskAlertTopic
+
+  DiskAlertTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: DiskUtilizationAlerts
+      DisplayName: Disk Space Alerts
+
+  DiskAlertSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      TopicArn: !Ref DiskAlertTopic
+      Protocol: email
+      Endpoint: ops-team@yourcompany.com
