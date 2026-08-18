@@ -1,0 +1,60 @@
+# YAML CloudFormation — Service-Managed StackSet (deploy from Management Account)
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  Disk monitoring infrastructure — deployed via service-managed StackSets
+  to all accounts in the Production OU. Auto-deploys to new accounts on OU join.
+
+Resources:
+  EC2MonitoringRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: DiskMonitoringEC2Role
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+
+  EC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      InstanceProfileName: DiskMonitoringInstanceProfile
+      Roles:
+        - !Ref EC2MonitoringRole
+
+  # OAM Link — connects spoke account metrics to the central OAM Sink
+  OAMLink:
+    Type: AWS::Oam::Link
+    Properties:
+      LabelTemplate: $AccountName
+      ResourceTypes:
+        - AWS::CloudWatch::Metric
+        - AWS::Logs::LogGroup
+      SinkIdentifier: !Sub >
+        arn:aws:oam:${AWS::Region}:CENTRAL-ACCOUNT-ID:sink/SINK-ID
+
+  DiskUtilizationAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: HighDiskUtilization-Warning
+      AlarmDescription: "Disk utilization exceeds 85% - Warning"
+      Namespace: DiskMonitoring/Custom
+      MetricName: disk_used_percent
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 85
+      ComparisonOperator: GreaterThanThreshold
+      TreatMissingData: breaching
+      AlarmActions:
+        - !Ref DiskAlertTopic
+
+  DiskUtilizationCritical:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: HighDiskUtilization-Critical
