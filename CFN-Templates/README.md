@@ -4,5 +4,5 @@ Deploy this template as a service-managed StackSet from the Management Account (
 
 **SSM State Manager Associations (CloudFormation YAML)**
 
-These two associations are deployed into every spoke account and region via the StackSet. The first installs the CloudWatch Agent package; the second applies the disk monitoring configuration from Parameter Store. By targeting InstanceIds: "*", they catch all current and future EC2 instances automatically.
+The two associations are deployed into every spoke account and region via the StackSet. The first installs the CloudWatch Agent package; the second applies the disk monitoring configuration from Parameter Store. By targeting InstanceIds: "*", they catch all current and future EC2 instances automatically.
 
