@@ -6,5 +6,7 @@ SCPs are attached to the production OU. They prevent spoke accounts from disabli
 
 The cross-account role uses aws:PrincipalOrgID instead of explicit account IDs. Any account within the Organization can assume this role — no per-account trust policy updates needed when adding new accounts.
 
+**EC2 Instance Profile Policy (SSM + CloudWatch)**
 
+Contains the permissions the EC2 instances need to get managed by Systems Manager to push the metric data from the instance to CloudWatch Logs.
 
