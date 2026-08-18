@@ -1,0 +1,41 @@
+# YAML — SSM State Manager Associations (also included in StackSet template)
+Resources:
+  InstallCloudWatchAgent:
+    Type: AWS::SSM::Association
+    Properties:
+      AssociationName: DeployCloudWatchAgentForDiskMonitoring
+      Name: AWS-ConfigureAWSPackage
+      Targets:
+        - Key: InstanceIds
+          Values:
+            - "*"
+      Parameters:
+        action:
+          - Install
+        name:
+          - AmazonCloudWatchAgent
+      ScheduleExpression: "rate(1 day)"
+      ComplianceSeverity: HIGH
+
+  ConfigureCloudWatchAgent:
+    Type: AWS::SSM::Association
+    Properties:
+      AssociationName: ConfigureCloudWatchAgentDiskMetrics
+      Name: AmazonCloudWatch-ManageAgent
+      Targets:
+        - Key: InstanceIds
+          Values:
+            - "*"
+      Parameters:
+        action:
+          - configure
+        mode:
+          - ec2
+        optionalConfigurationSource:
+          - ssm
+        optionalConfigurationLocation:
+          - AmazonCloudWatch-DiskMonitoring
+        optionalRestart:
+          - "yes"
+      ScheduleExpression: "rate(1 day)"
+      ComplianceSeverity: HIGH
