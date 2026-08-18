@@ -1,0 +1,27 @@
+// CloudWatch Agent Configuration file — cw-agent-config.json
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "root"
+  },
+  "metrics": {
+    "namespace": "DiskMonitoring/Custom",
+    "append_dimensions": {
+      "InstanceId": "${aws:InstanceId}",
+      "AutoScalingGroupName": "${aws:AutoScalingGroupName}"
+    },
+    "metrics_collected": {
+      "disk": {
+        "measurement": [
+          "used_percent",
+          "free",
+          "total",
+          "inodes_free"
+        ],
+        "metrics_collection_interval": 60,
+        "resources": ["*"],
+        "ignore_file_system_types": ["sysfs", "devtmpfs", "tmpfs", "overlay"]
+      }
+    }
+  }
+}
